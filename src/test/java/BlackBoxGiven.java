@@ -15,12 +15,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import main.java.Cart;
-import main.java.Cart1;
-import main.java.Cart2;
-import main.java.Cart3;
-import main.java.Cart4;
-import main.java.Cart5;
-
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
@@ -34,6 +28,7 @@ public class BlackBoxGiven {
     }
 
     // Define all classes to be tested
+    /*
     @Parameterized.Parameters
     public static Collection<Object[]> cartClassUnderTest() {
         Object[][] classes = {
@@ -46,7 +41,7 @@ public class BlackBoxGiven {
         };
         return Arrays.asList(classes);
     }
-
+*/
     private Cart createCart(int age) throws Exception {
         Constructor<Cart> constructor = classUnderTest.getConstructor(Integer.TYPE);
         return constructor.newInstance(age);
