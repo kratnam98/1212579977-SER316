@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cart {
-
-    protected int userAge;
+  //SER316 TASK 2 SPOTBUGS FIX
+    public int userAge;
     public List<Product> cart;
-    public int cartStorage;
+  //SER316 TASK 2 SPOTBUGS FIX
+    //int cartStorage;
 
     /**
      * Calculates the final cost after all savings and tax has 
@@ -48,8 +49,8 @@ public class Cart {
         for(int i = 0; i < cart.size(); i++) {
             subTotal += cart.get(i).getCost();
             costAfterSavings = costAfterSavings + cart.get(i).getCost();
-
-            if (cart.get(i).getClass().toString() == Produce.class.toString()) {
+            //SER316 TASK 2 SPOTBUGS FIX
+            if (cart.get(i).getClass().toString().equals( Produce.class.toString())) {
                 produce_counter++;
 
                 if (produce_counter >= 3) {
@@ -57,16 +58,19 @@ public class Cart {
                     produce_counter = 0;
                 }
             }
-            else if (cart.get(i).getClass().toString() == Alcohol.class.toString()) {
+          //SER316 TASK 2 SPOTBUGS FIX
+            else if (cart.get(i).getClass().toString().equals(Alcohol.class.toString())) {
                 alcoholCounter++;
                 if (userAge < 21) {
                     throw new UnderAgeException("The User is not of age to purchase alcohol!");
                 }
             }
-            else if (cart.get(i).getClass().toString() == FrozenFood.class.toString()) {
+          //SER316 TASK 2 SPOTBUGS FIX
+            else if (cart.get(i).getClass().toString().equals(FrozenFood.class.toString())) {
                 frozenFoodCounter++;
             }
-            else if (cart.get(i).getClass().toString() == FrozenFood.class.toString()) {
+          //SER316 TASK 2 SPOTBUGS FIX
+            else if (cart.get(i).getClass().toString().equals(FrozenFood.class.toString())) {
                 dairyCounter++;
             }
 
@@ -92,7 +96,9 @@ public class Cart {
                 break;
             case "NY":
                 newTotal = totalBt * .1;
-            case "CO":
+              //SER316 TASK 2 SPOTBUGS FIX
+                break;
+           case "CO":
                 newTotal = totalBt * .07;
                 break;
             default:
@@ -105,7 +111,7 @@ public class Cart {
       cart.add(np);
     }
 
-    public boolean RemoveItem(Product productToRemove) {
+    public boolean removeItem(Product productToRemove) {
         boolean test = false;
         for (int i = 0; i < cart.size(); i++) {
             if (cart.get(i) == productToRemove) {
