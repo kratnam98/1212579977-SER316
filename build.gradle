@@ -1,6 +1,11 @@
  plugins {
-     id "com.github.spotbugs" version "3.0.0"
+     //id "com.github.spotbugs" version "3.0.0"
+     //id "com.github.spotbugs" version "1.6.11"
      id "checkstyle"
+ }
+
+ plugins {
+     id 'pmd'
  }
 
 apply plugin: 'application'
@@ -21,10 +26,22 @@ dependencies {
     compile files('cls/')
 }
 
+//dependencies {
+  //spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:4.0.0'
+//}
+
 test {
 exclude '**/BlackBoxGiven.class'
 }
 
+apply plugin: "pmd"
+pmd {
+  ignoreFailures = true
+  sourceSets = [sourceSets.main]
+  reportsDir = file("$project.buildDir/reports/pmd")
+  ruleSets = []
+  ruleSetConfig = resources.text.fromFile('ruleset.xml')
+}
 
 ///////////////////////////////////////////////////////////////////////
 // Configure Checkstyle
@@ -51,9 +68,8 @@ exclude '**/BlackBoxGiven.class'
 // Configure SpotBugs
 /////////////////////////////////////////////////////////////////////////
  // To generate an HTML report instead of XML
-  tasks.withType(com.github.spotbugs.SpotBugsTask) {
-    reports {
-      xml.enabled = false
-      html.enabled = true
-    }
-  }
+  //tasks.withType(com.github.spotbugs.SpotBugsTask) {
+  //  reports {
+  //    xml.enabled = false
+  //  }
+  //}

@@ -1,7 +1,10 @@
 package main.java;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 public class Cart {
   //SER316 TASK 2 SPOTBUGS FIX
@@ -28,8 +31,17 @@ public class Cart {
      * @throws UnderAgeException
      */
     public double calcCost() throws UnderAgeException {
-        return 0; //implement me, will be important for assignment 
+        //return 0; //implement me, will be important for assignment 
         //4 (nothing to do here for assignment 3)
+        double fin = 0;
+        for(int i = 0; i < cart.size(); i++) {
+            fin = fin + cart.get(i).getCost();
+        }
+        int save = Amount_saved();
+        fin = fin - save;
+        fin = fin + getTax(fin, "AZ");
+        return fin;
+        
     }
 
     // calculates how much was saved in the current 
@@ -86,7 +98,18 @@ public class Cart {
 
     // Gets the tax based on state and the total
     public double getTax(double totalBt, String twoLetterUsStateAbbreviation) {
-        double newTotal = 0;
+        double newTotal = totalBt;
+
+        Hashtable<String, Double> hash = new Hashtable<String, Double>();
+        
+        hash.put("AZ", .08);
+        hash.put("CA", .09);
+        hash.put("NY", .10);
+        hash.put("CO", .07);
+        
+        newTotal = totalBt * hash.get(twoLetterUsStateAbbreviation);
+        
+        /*
         switch (twoLetterUsStateAbbreviation) {
             case "AZ":
                 newTotal = totalBt * .08;
@@ -101,9 +124,10 @@ public class Cart {
            case "CO":
                 newTotal = totalBt * .07;
                 break;
-            default:
-                return totalBt;
+            //default:
+               //return totalBt;
         }
+        */
         return newTotal;
     }
 
