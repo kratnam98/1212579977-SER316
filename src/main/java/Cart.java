@@ -1,10 +1,8 @@
 package main.java;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 public class Cart {
   //SER316 TASK 2 SPOTBUGS FIX
@@ -30,6 +28,7 @@ public class Cart {
      * @return double totalCost
      * @throws UnderAgeException
      */
+    
     public double calcCost() throws UnderAgeException {
         //return 0; //implement me, will be important for assignment 
         //4 (nothing to do here for assignment 3)
@@ -49,85 +48,48 @@ public class Cart {
     // throws exception if alcohol is bought from underage person
     // TODO: Create node graph for this method in assign 4: 
     //create white box tests and fix the method, reach at least 98% coverage
+    
+    
+    
+    
     public int Amount_saved() throws UnderAgeException {
         int subTotal = 0;
         int costAfterSavings = 0;
-
-        double produce_counter = 0;
-        int alcoholCounter = 0;
-        int frozenFoodCounter = 0;
-        int dairyCounter = 0;
-
+        int produce_counter = 0;
+        boolean alcc = false;
         for(int i = 0; i < cart.size(); i++) {
             subTotal += cart.get(i).getCost();
             costAfterSavings = costAfterSavings + cart.get(i).getCost();
-            //SER316 TASK 2 SPOTBUGS FIX
             if (cart.get(i).getClass().toString().equals( Produce.class.toString())) {
                 produce_counter++;
-
-                if (produce_counter >= 3) {
-                    costAfterSavings -= 1;
-                    produce_counter = 0;
-                }
             }
-          //SER316 TASK 2 SPOTBUGS FIX
             else if (cart.get(i).getClass().toString().equals(Alcohol.class.toString())) {
-                alcoholCounter++;
+                alcc = true;
                 if (userAge < 21) {
                     throw new UnderAgeException("The User is not of age to purchase alcohol!");
                 }
             }
-          //SER316 TASK 2 SPOTBUGS FIX
             else if (cart.get(i).getClass().toString().equals(FrozenFood.class.toString())) {
-                frozenFoodCounter++;
-            }
-          //SER316 TASK 2 SPOTBUGS FIX
-            else if (cart.get(i).getClass().toString().equals(FrozenFood.class.toString())) {
-                dairyCounter++;
-            }
-
-            if (alcoholCounter >= 1 && frozenFoodCounter >= 1) {
-                costAfterSavings = costAfterSavings + 3;
-                alcoholCounter--;
-                frozenFoodCounter--;
+                if(alcc) {
+                    costAfterSavings = costAfterSavings - 3;
+                    alcc = false;
+                }
             }
         }
-
+        int x = produce_counter % 3;
+        costAfterSavings = costAfterSavings-x;
         return subTotal - costAfterSavings;
     }
 
     // Gets the tax based on state and the total
-    public double getTax(double totalBt, String twoLetterUsStateAbbreviation) {
+    public double getTax(double totalBt, String let) {
         double newTotal = totalBt;
-
         Hashtable<String, Double> hash = new Hashtable<String, Double>();
-        
         hash.put("AZ", .08);
         hash.put("CA", .09);
         hash.put("NY", .10);
         hash.put("CO", .07);
-        
-        newTotal = totalBt * hash.get(twoLetterUsStateAbbreviation);
-        
-        /*
-        switch (twoLetterUsStateAbbreviation) {
-            case "AZ":
-                newTotal = totalBt * .08;
-                break;
-            case "CA":
-                newTotal = totalBt * .09;
-                break;
-            case "NY":
-                newTotal = totalBt * .1;
-              //SER316 TASK 2 SPOTBUGS FIX
-                break;
-           case "CO":
-                newTotal = totalBt * .07;
-                break;
-            //default:
-               //return totalBt;
-        }
-        */
+        newTotal = totalBt * hash.get(let);
         return newTotal;
     }
 

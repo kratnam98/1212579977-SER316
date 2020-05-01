@@ -35,4 +35,6 @@
 <rule ref="category/java/bestpractices.xml/LooseCoupling" />
 
 
+<rule ref="rulesets/java/imports.xml"/>
+
 </ruleset>
